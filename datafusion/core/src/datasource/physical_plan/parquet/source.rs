@@ -270,6 +270,7 @@ pub struct ParquetSource {
     /// Optional hint for the size of the parquet metadata
     pub(crate) metadata_size_hint: Option<usize>,
     pub(crate) projected_statistics: Option<Statistics>,
+    pub(crate) row_number_column: Option<String>,
 }
 
 impl ParquetSource {
@@ -457,6 +458,12 @@ impl ParquetSource {
     fn bloom_filter_on_read(&self) -> bool {
         self.table_parquet_options.global.bloom_filter_on_read
     }
+
+    /// Set the row number column name
+    pub fn with_row_number_column(mut self, row_number_column: Option<String>) -> Self {
+        self.row_number_column = row_number_column;
+        self
+    }
 }
 
 impl FileSource for ParquetSource {
@@ -498,6 +505,7 @@ impl FileSource for ParquetSource {
             enable_page_index: self.enable_page_index(),
             enable_bloom_filter: self.bloom_filter_on_read(),
             schema_adapter_factory,
+            row_number_column: self.row_number_column.clone(),
         })
     }
 

@@ -83,6 +83,8 @@ pub(super) struct ParquetOpener {
     pub enable_bloom_filter: bool,
     /// Schema adapter factory
     pub schema_adapter_factory: Arc<dyn SchemaAdapterFactory>,
+    /// Row number column name
+    pub row_number_column: Option<String>,
 }
 
 impl FileOpener for ParquetOpener {
@@ -122,6 +124,7 @@ impl FileOpener for ParquetOpener {
         );
         let enable_bloom_filter = self.enable_bloom_filter;
         let limit = self.limit;
+        let row_number_column = self.row_number_column.clone();
 
         Ok(Box::pin(async move {
             let options = ArrowReaderOptions::new().with_page_index(enable_page_index);
@@ -152,7 +155,8 @@ impl FileOpener for ParquetOpener {
             metadata_timer.stop();
 
             let mut builder =
-                ParquetRecordBatchStreamBuilder::new_with_metadata(reader, metadata);
+                ParquetRecordBatchStreamBuilder::new_with_metadata(reader, metadata)
+                    .with_row_number_column(row_number_column.clone());
 
             let file_schema = Arc::clone(builder.schema());
 

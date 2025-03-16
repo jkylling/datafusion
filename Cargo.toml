@@ -191,3 +191,12 @@ large_futures = "warn"
 [workspace.lints.rust]
 unexpected_cfgs = { level = "warn", check-cfg = ["cfg(tarpaulin)"] }
 unused_qualifications = "deny"
+
+[patch.crates-io]
+arrow = { git = "https://github.com/jkylling/arrow-rs.git", branch = "feature/parquet-reader-row-numbers-54.2.1" }
+arrow-buffer = { git = "https://github.com/jkylling/arrow-rs.git", branch = "feature/parquet-reader-row-numbers-54.2.1" }
+arrow-flight = { git = "https://github.com/jkylling/arrow-rs.git", branch = "feature/parquet-reader-row-numbers-54.2.1" }
+arrow-ipc = { git = "https://github.com/jkylling/arrow-rs.git", branch = "feature/parquet-reader-row-numbers-54.2.1" }
+arrow-ord = { git = "https://github.com/jkylling/arrow-rs.git", branch = "feature/parquet-reader-row-numbers-54.2.1" }
+arrow-schema = { git = "https://github.com/jkylling/arrow-rs.git", branch = "feature/parquet-reader-row-numbers-54.2.1" }
+parquet = { git = "https://github.com/jkylling/arrow-rs.git", branch = "feature/parquet-reader-row-numbers-54.2.1" }
